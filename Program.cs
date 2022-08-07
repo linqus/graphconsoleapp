@@ -71,7 +71,11 @@ namespace graphconsoleapp
             }
             var client = GetAuthenticatedGraphClient(config);
 
-            var graphRequest = client.Users.Request();
+            var graphRequest = client.Users.Request()
+                                .Select(u => new {u.DisplayName,u.Mail})
+                                .Top(15)
+                                .OrderBy("Displayname desc")
+            ;
 
             var results = graphRequest.GetAsync().Result;
             foreach(var user in results)
