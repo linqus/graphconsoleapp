@@ -35,6 +35,26 @@ namespace graphconsoleapp
                 return null;
             }
         }
+
+        private static IAuthenticationProvider CreateAuthorizationProvider(IConfigurationRoot config)
+        {
+            var clientId = config["applicationId"];
+            var clientSecret = config["applicationSecret"];
+            var redirectUri = config["redirectUri"];
+            var authority = $"https://login.microsoftonline.com/{config["tenantId"]}/v2.0";
+
+            List<string> scopes = new List<string>();
+            scopes.Add("https://graph.microsoft.com/.default");
+
+            var cca = ConfidentialClientApplicationBuilder.Create(clientId)
+                                                    .WithAuthority(authority)
+                                                    .WithRedirectUri(redirectUri)
+                                                    .WithClientSecret(clientSecret)
+                                                    .Build();
+            return new MsalAuthenticationProvider(cca, scopes.ToArray());
+        }
+
+
         public static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
