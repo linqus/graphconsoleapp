@@ -54,6 +54,12 @@ namespace graphconsoleapp
             return new MsalAuthenticationProvider(cca, scopes.ToArray());
         }
 
+        private static GraphServiceClient GetAuthenticatedGraphClient(IConfigurationRoot config)
+        {
+            var authenticationProvider = CreateAuthorizationProvider(config);
+            _graphClient = new GraphServiceClient(authenticationProvider);
+            return _graphClient;
+        }
 
         public static void Main(string[] args)
         {
