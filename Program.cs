@@ -74,7 +74,8 @@ namespace graphconsoleapp
             var graphRequest = client.Users.Request()
                                 .Select(u => new {u.DisplayName,u.Mail})
                                 .Top(15)
-                                .OrderBy("Displayname desc")
+                                //.OrderBy("Displayname desc")
+                                .Filter("startsWith(surname,'A') or startsWith(surname,'B') or startsWith(surname,'C')")
             ;
 
             var results = graphRequest.GetAsync().Result;
