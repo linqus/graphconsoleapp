@@ -63,7 +63,26 @@ namespace graphconsoleapp
 
         public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var config = LoadAppSettings();
+            if (config == null)
+            {
+                Console.WriteLine("Invalid appsettings.json file.");
+                return;
+            }
+            var client = GetAuthenticatedGraphClient(config);
+
+            var graphRequest = client.Users.Request();
+
+            var results = graphRequest.GetAsync().Result;
+            foreach(var user in results)
+            {
+                Console.WriteLine(user.Id + ": " + user.DisplayName + " <" + user.Mail + ">");
+            }
+
+            Console.WriteLine("\nGraph Request:");
+            Console.WriteLine(graphRequest.GetHttpRequestMessage().RequestUri);
+
+
         }
     }
 }
