@@ -9,6 +9,7 @@ namespace graphconsoleapp
 {
     public class Program
     {
+        private static GraphServiceClient? _graphClient;
         public static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
